@@ -8,9 +8,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 import time
 import re
+# --- Streamlit App ---
+st.set_page_config(page_title="SpotVirtual Scraper", layout="centered")
+st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual....!! ")
 
 if 'driver' not in st.session_state:
-    st.write("Hello")
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
@@ -96,11 +98,6 @@ def scrape_names(driver=st.session_state.driver):
     cleaned = sorted([i for i in all_items if len(i) > 2])
     return cleaned
 
-
-# --- Streamlit App ---
-st.set_page_config(page_title="SpotVirtual Scraper", layout="centered")
-st.title("👥 SpotVirtual Room Scraper")
-
 if 'email' not in st.session_state:
     st.session_state.email = ''
 
@@ -115,7 +112,8 @@ if 'login' not in st.session_state:
 
 if st.session_state.email =='' and st.session_state.opt == False:
     if st.session_state.login == '':
-        st.text_input("Enter your SpotVirtual email",key='email')
+        st.warning("Reload the page entirely ... if you face any Technical Errors")
+        st.text_input("Enter your SpotVirtual email or office mail id",key='email')
 
 if st.session_state.email !='' and st.session_state.opt == False:
     send_code_to_email(st.session_state.email)
@@ -130,6 +128,8 @@ if st.session_state.code !='' and st.session_state.opt:
 
 if st.session_state.login == 'success' and st.button("Scrape Data"):
     attendees = scrape_names()
+    st.write("Total Presentees  : ",len(attendees))
+    st.write("Presentees Name :   ",','.join(attendees))
     st.write(attendees)
 
 
