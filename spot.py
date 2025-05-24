@@ -15,7 +15,7 @@ if 'driver' not in st.session_state:
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(options=options)
     driver.maximize_window()
     st.session_state.driver = driver
 
