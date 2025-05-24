@@ -95,4 +95,4 @@ _Data Science Specialist @ Guvi_
 ## 📫 Contact
 
 - 📧 Email: mohammedhassan.mechgmail.com
-- 🐙 GitHub: [github.com/your-username](https://github.com/MohdHassanS)
+- 🐙 GitHub: [https://github.com/MohdHassanS]
