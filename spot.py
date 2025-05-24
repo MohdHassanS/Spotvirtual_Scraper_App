@@ -14,9 +14,9 @@ st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual...
 
 if 'driver' not in st.session_state:
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
+    # options.add_argument("--headless=new")
+    # options.add_argument("--no-sandbox")
+    # options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
     st.session_state.driver = driver
@@ -48,7 +48,7 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         for i, digit in enumerate(code):
             code_inputs[i].send_keys(digit)
         time.sleep(5)
-        for _ in range(3):
+        for _ in range(1):
             WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
             time.sleep(5)
         st.session_state.login = 'success'
