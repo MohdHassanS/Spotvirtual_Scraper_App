@@ -10,6 +10,7 @@ import time
 import re
 
 if 'driver' not in st.session_state:
+    st.write("Hello")
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
