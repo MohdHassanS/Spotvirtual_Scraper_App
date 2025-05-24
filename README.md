@@ -31,7 +31,7 @@ A **Streamlit web app** that automates login to [SpotVirtual](https://spotvirtua
 
 1. **Clone this repository**
    ```bash
-   git clone https://github.com/your-username/spotvirtual-scraper.git
+   git clone https://github.com/MohdHassanS/Spotvirtual_Scraper_App.git
    cd spotvirtual-scraper
    ```
 
