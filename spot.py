@@ -22,6 +22,12 @@ if 'driver' not in st.session_state:
     driver.maximize_window()
     st.session_state.driver = driver
 
+
+def take_screenshot(driver, name="screenshot"):
+    driver.save_screenshot(f"{name}.png")
+    with open(f"{name}.png", "rb") as img:
+        st.image(img.read(), caption=name)
+        
 def send_code_to_email(email,driver=st.session_state.driver):
     driver.get("https://spotvirtual.com/login")
     time.sleep(5)
@@ -43,6 +49,8 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         for i, digit in enumerate(code):
             code_inputs[i].send_keys(digit)
         time.sleep(5)
+        take_screenshot(driver, "after_entering the code")
+        time.sleep(5)
         for _ in range(1):
             WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
             st.write("click")
@@ -52,14 +60,15 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         st.error(f"An error occurred : ")
         error_details = traceback.format_exc()
         st.code(error_details, language='python')
-        # st.session_state.code = ''
-        # st.session_state.email = ''
+        st.session_state.code = ''
+        st.session_state.email = ''
         st.session_state.opt = False
         del st.session_state.driver
         driver.quit()
+        st.button('Rerun')
     
         
-        st.rerun()
+        # st.rerun()
 
 def scrape_names(driver=st.session_state.driver):
 
@@ -99,7 +108,6 @@ def scrape_names(driver=st.session_state.driver):
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
-    st.write('cret eml')
 
 if 'code' not in st.session_state:
     st.session_state.code = ''
