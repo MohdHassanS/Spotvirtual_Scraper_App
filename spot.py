@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+import traceback
 import time
 import re
 # --- Streamlit App ---
@@ -36,14 +37,11 @@ def send_code_to_email(email,driver=st.session_state.driver):
     st.session_state.opt = True
 
 def confirm_verification_code(code, driver=st.session_state.driver):
-    st.write("Code")
     try:
         code_inputs = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.XPATH,"//div[contains(@class, 'ConfirmCodeInput_self')]//input")))
         code = re.sub(r'[^a-zA-Z0-9]', '', code)
-        st.write(code)
         for i, digit in enumerate(code):
             code_inputs[i].send_keys(digit)
-            st.write(i,digit)
         time.sleep(5)
         for _ in range(1):
             WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
@@ -51,9 +49,11 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             time.sleep(5)
         st.session_state.login = 'success'
     except Exception as e:
-        st.error(f"An error occurred: {str(e)}") 
-        st.session_state.code = ''
-        st.session_state.email = ''
+        st.error(f"An error occurred : ")
+        error_details = traceback.format_exc()
+        st.code(error_details, language='python')
+        # st.session_state.code = ''
+        # st.session_state.email = ''
         st.session_state.opt = False
         del st.session_state.driver
         driver.quit()
