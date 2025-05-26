@@ -48,11 +48,10 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         code = re.sub(r'[^a-zA-Z0-9]', '', code)
         for i, digit in enumerate(code):
             code_inputs[i].send_keys(digit)
-        time.sleep(5)
+        time.sleep(15)
         take_screenshot(driver, "after_entering the code")
-        time.sleep(5)
         for _ in range(1):
-            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
+            WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
             st.write("click")
             time.sleep(5)
         st.session_state.login = 'success'
