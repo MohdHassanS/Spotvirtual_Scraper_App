@@ -36,6 +36,7 @@ def send_code_to_email(email,driver=st.session_state.driver):
     st.session_state.opt = True
 
 def confirm_verification_code(code, driver=st.session_state.driver):
+    st.write("Code")
     try:
         code_inputs = WebDriverWait(driver, 20).until(
         EC.presence_of_all_elements_located((
@@ -99,6 +100,7 @@ def scrape_names(driver=st.session_state.driver):
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
+    st.write('cret eml')
 
 if 'code' not in st.session_state:
     st.session_state.code = ''
