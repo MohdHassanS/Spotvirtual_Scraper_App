@@ -38,28 +38,27 @@ def send_code_to_email(email,driver=st.session_state.driver):
 def confirm_verification_code(code, driver=st.session_state.driver):
     st.write("Code")
     try:
-        code_inputs = WebDriverWait(driver, 20).until(
-        EC.presence_of_all_elements_located((
-            By.XPATH,
-            "//div[contains(@class, 'ConfirmCodeInput_self')]//input"
-        ))
-    )
+        code_inputs = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.XPATH,"//div[contains(@class, 'ConfirmCodeInput_self')]//input")))
         code = re.sub(r'[^a-zA-Z0-9]', '', code)
+        st.write(code)
         for i, digit in enumerate(code):
             code_inputs[i].send_keys(digit)
+            st.write(i,digit)
         time.sleep(5)
         for _ in range(1):
             WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
+            st.write("click")
             time.sleep(5)
         st.session_state.login = 'success'
     except Exception as e:
+        st.error(f"An error occurred: {str(e)}") 
         st.session_state.code = ''
         st.session_state.email = ''
         st.session_state.opt = False
         del st.session_state.driver
         driver.quit()
     
-        st.error(f"An error occurred: {str(e)}") 
+        
         st.rerun()
 
 def scrape_names(driver=st.session_state.driver):
