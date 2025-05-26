@@ -14,9 +14,9 @@ st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual...
 
 if 'driver' not in st.session_state:
     options = webdriver.ChromeOptions()
-    # options.add_argument("--headless=new")
-    # options.add_argument("--no-sandbox")
-    # options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=options)
     driver.maximize_window()
     st.session_state.driver = driver
@@ -33,11 +33,10 @@ def send_code_to_email(email,driver=st.session_state.driver):
     )
     email_input.send_keys(email)
     email_input.send_keys(Keys.RETURN)
-    # time.sleep(60)
     st.session_state.opt = True
 
 def confirm_verification_code(code, driver=st.session_state.driver):
-    # try:
+    try:
         code_inputs = WebDriverWait(driver, 20).until(
         EC.presence_of_all_elements_located((
             By.XPATH,
@@ -52,15 +51,15 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
             time.sleep(5)
         st.session_state.login = 'success'
-    # except:
-    #     st.session_state.code = ''
-    #     st.session_state.email = ''
-    #     st.session_state.opt = False
-    #     del st.session_state.driver
-    #     #driver.quit()
-
-    #     st.error("Incorrect OTP")
-    #     st.rerun()
+    except Exception as e:
+        st.session_state.code = ''
+        st.session_state.email = ''
+        st.session_state.opt = False
+        del st.session_state.driver
+        driver.quit()
+    
+        st.error(f"An error occurred: {str(e)}") 
+        st.rerun()
 
 def scrape_names(driver=st.session_state.driver):
 
