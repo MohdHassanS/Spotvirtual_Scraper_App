@@ -56,6 +56,7 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             time.sleep(5)
         st.session_state.login = 'success'
     except Exception as e:
+        take_screenshot(driver, "after_entering the exception block")
         st.error(f"An error occurred : ")
         error_details = traceback.format_exc()
         st.code(error_details, language='python')
@@ -65,8 +66,6 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         del st.session_state.driver
         driver.quit()
         st.button('Rerun')
-    
-        
         # st.rerun()
 
 def scrape_names(driver=st.session_state.driver):
