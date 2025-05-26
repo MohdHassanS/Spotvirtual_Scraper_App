@@ -24,9 +24,9 @@ if 'driver' not in st.session_state:
     st.session_state.driver = driver
 
 
-def take_screenshot(driver, name="screenshot"):
-    screenshot = driver.get_screenshot_as_png()
-    st.image(BytesIO(screenshot), caption=caption)
+# def take_screenshot(driver, name="screenshot"):
+#     screenshot = driver.get_screenshot_as_png()
+#     st.image(BytesIO(screenshot), caption=caption)
         
 def send_code_to_email(email,driver=st.session_state.driver):
     driver.get("https://spotvirtual.com/login")
@@ -49,7 +49,7 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         for i, digit in enumerate(code):
             code_inputs[i].send_keys(digit)
         time.sleep(25)
-        take_screenshot(driver, "after_entering the code")
+        # take_screenshot(driver, "after_entering the code")
         for _ in range(1):
             WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
             st.write("click")
