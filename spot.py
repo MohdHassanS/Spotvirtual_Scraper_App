@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+from io import BytesIO
 import traceback
 import time
 import re
@@ -24,9 +25,8 @@ if 'driver' not in st.session_state:
 
 
 def take_screenshot(driver, name="screenshot"):
-    driver.save_screenshot(f"{name}.png")
-    with open(f"{name}.png", "rb") as img:
-        st.image(img.read(), caption=name)
+    screenshot = driver.get_screenshot_as_png()
+    st.image(BytesIO(screenshot), caption=caption)
         
 def send_code_to_email(email,driver=st.session_state.driver):
     driver.get("https://spotvirtual.com/login")
