@@ -19,6 +19,7 @@ st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual...
 
 if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
+        options = Options()
         options.add_argument("--headless")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
