@@ -69,7 +69,6 @@ def confirm_verification_code(code, driver=st.session_state.driver):
 def scrape_names(driver=st.session_state.driver):
     with st.spinner("Wait for it...", show_time=True):
         for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
-            st.write(xpath)
             try:
                 WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
                 st.write(xpath)
