@@ -67,8 +67,8 @@ def scrape_names(driver=st.session_state.driver):
                 WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
             except:
                 pass
-        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//div[@class='OrgSidebar_scrollContainer__gBDGq utils_flex-1__oRiID utils_py-md__0Pvuz']")))
-        text_content = element.text
+        element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
+        text_content = "\n".join([el.text for el in element])
         spliting = list(set(text_content.splitlines()))
         unwanted = ['Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN']
         cleaned = sorted([i for i in spliting if len(i)>2 and i not in unwanted])
