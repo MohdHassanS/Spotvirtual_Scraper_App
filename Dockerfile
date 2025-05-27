@@ -37,4 +37,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD streamlit run spot.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+CMD streamlit run spot.py --server.port 8000 --server.address 0.0.0.0 --server.headless true
