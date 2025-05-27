@@ -127,4 +127,6 @@ if st.session_state.login == 'success' and st.button("Scrape Data"):
     st.write("Total Presentees  : ",len(attendees))
     st.write("Presentees Name :   ",','.join(attendees))
     st.write(attendees)
-
+    st.session_state.driver.quit()
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
