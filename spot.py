@@ -1,9 +1,11 @@
 import streamlit as st
-import undetected_chromedriver as uc
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 from io import BytesIO
 import traceback
 import time
@@ -15,13 +17,12 @@ st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual...
 
 if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
-        options = uc.ChromeOptions()
-        options.add_argument("--headless=new")
+        options = Options()
+        options.add_argument("--headless")  # Run in headless mode.
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         
-        driver = uc.Chrome(options=options,use_subprocess=True)
-        driver.maximize_window()
+        driver = webdriver.Chrome(options=options)
         st.session_state.driver = driver
 
 
