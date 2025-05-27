@@ -1,17 +1,14 @@
 import streamlit as st
-from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import undetected_chromedriver as uc
-from webdriver_manager.chrome import ChromeDriverManager
 from io import BytesIO
 import traceback
 import time
 import re
-import os
+
 # --- Streamlit App ---
 st.set_page_config(page_title="SpotVirtual Scraper", layout="centered")
 st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual....!! ")
@@ -23,7 +20,7 @@ if 'driver' not in st.session_state:
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         
-        driver = uc.Chrome(options=options)
+        driver = uc.Chrome(options=options,use_subprocess=True)
         driver.maximize_window()
         st.session_state.driver = driver
 
