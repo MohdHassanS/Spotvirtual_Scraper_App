@@ -17,6 +17,14 @@ import os
 st.set_page_config(page_title="SpotVirtual Scraper", layout="centered")
 st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual....!! ")
 
+if st.button("Full Refresh"):
+    if len(list(st.session_state.keys())) != 0:
+        if 'driver' in st.session_state:
+            st.session_state.driver.quit()
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+
+
 if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
         options = Options()
@@ -105,6 +113,7 @@ if 'opt' not in st.session_state:
 
 if 'login' not in st.session_state:
     st.session_state.login = ''
+
 
 if st.session_state.email =='' and st.session_state.opt == False:
     if st.session_state.login == '':
