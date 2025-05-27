@@ -15,13 +15,15 @@ st.set_page_config(page_title="SpotVirtual Scraper", layout="centered")
 st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual....!! ")
 
 if 'driver' not in st.session_state:
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=options)
-    driver.maximize_window()
-    st.session_state.driver = driver
+    with st.spinner("Wait for it...", show_time=True):
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
+        driver.maximize_window()
+        st.session_state.driver = driver
 
 
 def take_screenshot(driver, caption="screenshot"):
