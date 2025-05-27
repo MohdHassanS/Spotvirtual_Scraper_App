@@ -52,10 +52,10 @@ def confirm_verification_code(code, driver=st.session_state.driver):
                 code_inputs[i].send_keys(digit)
             time.sleep(10)
             st.session_state.login = 'success'
+            st.success("verified the code .. Entered the spot Successfully")
             
 
     except Exception as e:
-        # take_screenshot(driver, "after_entering the exception block")
         st.error(f"An error occurred : ")
         error_details = traceback.format_exc()
         st.code(error_details, language='python')
@@ -69,6 +69,7 @@ def confirm_verification_code(code, driver=st.session_state.driver):
 def scrape_names(driver=st.session_state.driver):
     with st.spinner("Wait for it...", show_time=True):
         for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
+            st.write(xpath)
             try:
                 WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
                 time.sleep(10)
