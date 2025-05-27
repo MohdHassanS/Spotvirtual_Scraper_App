@@ -56,13 +56,13 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'BottomBar_sidebarToggle')]"))).click()
             time.sleep(5)
-            take_screenshot(driver, "after_clicking once the bottom")
+            # take_screenshot(driver, "after_clicking once the bottom")
             
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'BottomBar_sidebarToggle')]"))).click()
             time.sleep(5)
-            take_screenshot(driver, "after_clicking second on the bottom")
+            # take_screenshot(driver, "after_clicking second on the bottom")
     except Exception as e:
-        take_screenshot(driver, "after_entering the exception block")
+        # take_screenshot(driver, "after_entering the exception block")
         st.error(f"An error occurred : ")
         error_details = traceback.format_exc()
         st.code(error_details, language='python')
