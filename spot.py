@@ -19,19 +19,18 @@ st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual...
 
 if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
-        options = Options()
-        options.add_argument("--headless")  # Run in headless mode.
+        options.add_argument("--headless")
+        options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-dev-shm-usage")  # critical for low-shm environments
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-infobars")
+        options.add_argument("--remote-debugging-port=9222")
         options.binary_location = os.environ.get("CHROME_BIN", "/usr/bin/chromium")
         
         driver = webdriver.Chrome(options=options)
         st.session_state.driver = driver
 
-
-def take_screenshot(driver, caption="screenshot"):
-    screenshot = driver.get_screenshot_as_png()
-    st.image(BytesIO(screenshot), caption=caption)
         
 def send_code_to_email(email,driver=st.session_state.driver):
     with st.spinner("Wait for it...", show_time=True):
@@ -50,17 +49,10 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             code = re.sub(r'[^a-zA-Z0-9]', '', code)
             for i, digit in enumerate(code):
                 code_inputs[i].send_keys(digit)
-            time.sleep(20)
-            # take_screenshot(driver, "after_entering the code")
+            time.sleep(10)
             st.session_state.login = 'success'
             
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'BottomBar_sidebarToggle')]"))).click()
-            time.sleep(5)
-            # take_screenshot(driver, "after_clicking once the bottom")
-            
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'BottomBar_sidebarToggle')]"))).click()
-            time.sleep(5)
-            # take_screenshot(driver, "after_clicking second on the bottom")
+
     except Exception as e:
         # take_screenshot(driver, "after_entering the exception block")
         st.error(f"An error occurred : ")
@@ -78,6 +70,7 @@ def scrape_names(driver=st.session_state.driver):
         for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
             try:
                 WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
+                time.sleep(10)
             except:
                 pass
         element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
