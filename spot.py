@@ -50,7 +50,7 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             code = re.sub(r'[^a-zA-Z0-9]', '', code)
             for i, digit in enumerate(code):
                 code_inputs[i].send_keys(digit)
-            time.sleep(5)
+            time.sleep(10)
             st.session_state.login = 'success'
             st.success("verified the code .. Entered the spot Successfully")
             
@@ -70,7 +70,7 @@ def scrape_names(driver=st.session_state.driver):
     with st.spinner("Wait for it...", show_time=True):
         for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
             try:
-                WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
+                WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
                 st.write(xpath)
             except:
                 st.write('missed')
