@@ -68,12 +68,9 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         st.error(f"An error occurred : ")
         error_details = traceback.format_exc()
         st.code(error_details, language='python')
-        st.session_state.code = ''
-        st.session_state.email = ''
-        st.session_state.opt = False
-        del st.session_state.driver
-        driver.quit()
-        st.button('Rerun')
+        st.session_state.driver.quit()
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
 
 def scrape_names(driver=st.session_state.driver):
     with st.spinner("Wait for it...", show_time=True):
