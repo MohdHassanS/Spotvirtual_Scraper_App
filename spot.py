@@ -72,6 +72,10 @@ def scrape_names(driver=st.session_state.driver):
         time.sleep(5)
         screenshot = driver.get_screenshot_as_png()
         st.image(BytesIO(screenshot), caption='before scraping')
+        try:
+            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[5]//div[2]//a[1]"))).click()
+        except:
+            st.write("No show all in members")
         # for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
         #     try:
         #         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
@@ -82,7 +86,7 @@ def scrape_names(driver=st.session_state.driver):
         element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
         text_content = "\n".join([el.text for el in element])
         spliting = list(set(text_content.splitlines()))
-        unwanted = ['Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN']
+        unwanted = ['Browse channels','Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN']
         cleaned = sorted([i for i in spliting if len(i)>2 and i not in unwanted])
         return cleaned
 
