@@ -72,17 +72,20 @@ def scrape_names(driver=st.session_state.driver):
         time.sleep(5)
         screenshot = driver.get_screenshot_as_png()
         st.image(BytesIO(screenshot), caption='before scraping')
-        element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
-        text_content = "\n".join([el.text for el in element])
-        spliting = list(set(text_content.splitlines()))
-        if "ADMIN" in spliting:
-            st.write("Admin Exsist")
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[5]//div[2]//a[1]"))).click()
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[6]//div[2]//a[1]"))).click()
-        elif "MEMBERS" in spliting:
-            st.write("Members Exsist")
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[4]//div[2]//a[1]"))).click()
-            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[5]//div[2]//a[1]"))).click()
+        
+        show_all_1 = driver.find_elements(By.XPATH, "//div[4]//div[2]//a[1]")
+        show_all_2 = driver.find_elements(By.XPATH, "//div[5]//div[2]//a[1]")
+        show_all_3 = driver.find_elements(By.XPATH, "//div[6]//div[2]//a[1]")
+        
+        if show_all_1:
+            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[4]//div[2]//a[1]"))).click()
+            st.write("Found Show all 4")
+        if show_all_2:
+            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[5]//div[2]//a[1]"))).click()
+            st.write("Found Show all 5")
+        if show_all_3:
+            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[6]//div[2]//a[1]"))).click()
+            st.write("Found Show all 6")
 
         element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
         text_content = "\n".join([el.text for el in element])
