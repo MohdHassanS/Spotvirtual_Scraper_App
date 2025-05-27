@@ -76,18 +76,14 @@ def scrape_names(driver=st.session_state.driver):
         text_content = "\n".join([el.text for el in element])
         spliting = list(set(text_content.splitlines()))
         if "ADMIN" in spliting:
+            st.write("Admin Exsist")
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[5]//div[2]//a[1]"))).click()
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[6]//div[2]//a[1]"))).click()
-        else:
+        elif "MEMBERS" in spliting:
+            st.write("Members Exsist")
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[4]//div[2]//a[1]"))).click()
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[5]//div[2]//a[1]"))).click()
-        # for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
-        #     try:
-        #         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
-        #         st.write(xpath)
-        #     except:
-        #         st.write('missed')
-        #         pass
+
         element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
         text_content = "\n".join([el.text for el in element])
         spliting = list(set(text_content.splitlines()))
