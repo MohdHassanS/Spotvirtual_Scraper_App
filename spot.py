@@ -11,6 +11,7 @@ from io import BytesIO
 import traceback
 import time
 import re
+import os
 
 # --- Streamlit App ---
 st.set_page_config(page_title="SpotVirtual Scraper", layout="centered")
@@ -22,6 +23,7 @@ if 'driver' not in st.session_state:
         options.add_argument("--headless")  # Run in headless mode.
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        options.binary_location = os.environ.get("CHROME_BIN", "/usr/bin/chromium")
         
         driver = webdriver.Chrome(options=options)
         st.session_state.driver = driver
