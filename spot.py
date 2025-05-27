@@ -29,33 +29,27 @@ def take_screenshot(driver, caption="screenshot"):
     st.image(BytesIO(screenshot), caption=caption)
         
 def send_code_to_email(email,driver=st.session_state.driver):
-    driver.get("https://spotvirtual.com/login")
-    time.sleep(5)
+    with st.spinner("Wait for it...", show_time=True):
+        driver.get("https://spotvirtual.com/login")
+        time.sleep(5)
 
-    email_input = WebDriverWait(driver, 20).until(
-        EC.visibility_of_element_located((
-            By.XPATH,
-            "//div[@class='Input_inputContainer__dDsj- Input_lg__Aj82U Input_border__mGsTY']//input"
-        ))
-    )
-    email_input.send_keys(email)
-    email_input.send_keys(Keys.RETURN)
-    st.session_state.opt = True
+        email_input = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH,"//div[@class='Input_inputContainer__dDsj- Input_lg__Aj82U Input_border__mGsTY']//input")))
+        email_input.send_keys(email)
+        email_input.send_keys(Keys.RETURN)
+        st.session_state.opt = True
 
 def confirm_verification_code(code, driver=st.session_state.driver):
     try:
-        code_inputs = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.XPATH,"//div[contains(@class, 'ConfirmCodeInput_self')]//input")))
-        code = re.sub(r'[^a-zA-Z0-9]', '', code)
-        for i, digit in enumerate(code):
-            code_inputs[i].send_keys(digit)
-        time.sleep(20)
-        take_screenshot(driver, "after_entering the code")
-        for _ in range(3):
-            WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//div[@class='utils_d-flex__ngJ-O utils_gap-2xs__J5LwE']"))).click()
-            st.write("click")
-            time.sleep(5)
-        st.session_state.login = 'success'
+        with st.spinner("Wait for it...", show_time=True):
+            code_inputs = WebDriverWait(driver, 20).until(EC.presence_of_all_elements_located((By.XPATH,"//div[contains(@class, 'ConfirmCodeInput_self')]//input")))
+            code = re.sub(r'[^a-zA-Z0-9]', '', code)
+            for i, digit in enumerate(code):
+                code_inputs[i].send_keys(digit)
+            time.sleep(20)
+            take_screenshot(driver, "after_entering the code")
+            st.session_state.login = 'success'
     except Exception as e:
+        take_screenshot(driver, "after_entering the exception block")
         st.error(f"An error occurred : ")
         error_details = traceback.format_exc()
         st.code(error_details, language='python')
@@ -65,43 +59,20 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         del st.session_state.driver
         driver.quit()
         st.button('Rerun')
-        # st.rerun()
 
 def scrape_names(driver=st.session_state.driver):
-
-    for i in range(5):
-        time.sleep(5)
-        try:
-            badge_button = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.XPATH, "//div[@class='Badge_badge__ZKvcA Badge_md__zbeVe Badge_muted__QtdpT Badge_isInteractable__3u2IK']"))
-            )
-            badge_button.click()
-        except:
-            break
-
-
-    text = WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.XPATH, "//div[@class='css-1hebf4y']"))
-    ).text
-
-    all_items = list(set(text.splitlines()))
-
-    unwanted = ['Asst manager zone', 'Auditorium', 'BU Head Room', 'BU Head Zone', 'CAD Team', 'Collection zone', 
-                'Data analyst zone', 'EMI Team', 'General Discussion Room', 'Hallway', 'KT zone', 'Leaders zone', 
-                'Lounge', 'MBC CS', 'MBC Discussion Zone', 'MBC MA', 'MBC PA', 'MBC RT', 'MBC SC', 'MBC Tech zone', 
-                'PBC Coordinators zone', 'PBC Interviewers zone', 'PC_1-1 meet room', 'PC_BADM(Eng)', 'PC_DS(Tam)', 
-                'PC_Discussion Zone', 'PES Lead_zone', 'Payment Collection', 'Payments Audit', 'Payments-EMI', 
-                'Placements CSE Room', 'Placements HR zone', 'Placements Tech zone', 'PreBoot Tech zone', 
-                'Program Execution Head Zone', 'QC(Queries/Complaints)', 'Tech Head Zone', 'Tech discussion zone']
-
-    for value in unwanted:
-        try:
-            all_items.remove(value)
-        except:
-            pass
-
-    cleaned = sorted([i for i in all_items if len(i) > 2])
-    return cleaned
+    with st.spinner("Wait for it...", show_time=True):
+        for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
+            try:
+                WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
+            except:
+                pass
+        element = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//div[@class='OrgSidebar_scrollContainer__gBDGq utils_flex-1__oRiID utils_py-md__0Pvuz']")))
+        text_content = element.text
+        spliting = list(set(text_content.splitlines()))
+        unwanted = ['Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN']
+        cleaned = sorted([i for i in spliting if len(i)>2 and i not in unwanted])
+        return cleaned
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
@@ -136,5 +107,4 @@ if st.session_state.login == 'success' and st.button("Scrape Data"):
     st.write("Total Presentees  : ",len(attendees))
     st.write("Presentees Name :   ",','.join(attendees))
     st.write(attendees)
-
 
