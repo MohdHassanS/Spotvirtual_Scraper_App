@@ -10,19 +10,24 @@ from io import BytesIO
 import traceback
 import time
 import re
+import os
 # --- Streamlit App ---
 st.set_page_config(page_title="SpotVirtual Scraper", layout="centered")
 st.title("👥 Hey Guvi'ans! Let see who was there with us in the SpotVirtual....!! ")
 
 if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
+        # Get chromium path
+        CHROME_BINARY_PATH = "/usr/bin/chromium"  # Render installs it here
+        
         options = webdriver.ChromeOptions()
+        options.binary_location = CHROME_BINARY_PATH
         options.add_argument("--headless=new")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
-        driver.maximize_window()
         st.session_state.driver = driver
 
 
