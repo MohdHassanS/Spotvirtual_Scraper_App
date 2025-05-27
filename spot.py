@@ -72,14 +72,15 @@ def scrape_names(driver=st.session_state.driver):
         time.sleep(5)
         screenshot = driver.get_screenshot_as_png()
         st.image(BytesIO(screenshot), caption='before scraping')
-        try:
+        element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
+        text_content = "\n".join([el.text for el in element])
+        spliting = list(set(text_content.splitlines()))
+        if "ADMIN" in spliting:
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[5]//div[2]//a[1]"))).click()
-        except:
-            st.write("No show all 2")
-        try:
             WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[6]//div[2]//a[1]"))).click()
-        except:
-            st.write("No show all 3")
+        else:
+            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[4]//div[2]//a[1]"))).click()
+            WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,"//div[5]//div[2]//a[1]"))).click()
         # for xpath in ["//div[4]//div[2]//a[1]","//div[5]//div[2]//a[1]","//div[6]//div[2]//a[1]"]:
         #     try:
         #         WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH,xpath))).click()
