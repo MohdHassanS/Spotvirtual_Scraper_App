@@ -72,22 +72,9 @@ def confirm_verification_code(code, driver=st.session_state.driver):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
 
-def scroll_to_bottom(driver, xpath, attempts=5, pause=1):
-    try:
-        element = WebDriverWait(driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, xpath))
-        )
-        for _ in range(attempts):
-            driver.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight", element)
-            time.sleep(pause)
-        st.success("Scrolled to bottom (multi-pass).")
-    except Exception as e:
-        st.error("Scroll failed:", e)
-
 def scrape_names(driver=st.session_state.driver):
     with st.spinner("Wait for it...", show_time=True):
         time.sleep(5)
-        scroll_to_bottom(driver, "(//div[@class='OrgSidebar_scrollContainer__gBDGq utils_flex-1__oRiID utils_py-md__0Pvuz'])[1]")
         screenshot = driver.get_screenshot_as_png()
         st.image(BytesIO(screenshot), caption='before scraping')
         
@@ -97,9 +84,9 @@ def scrape_names(driver=st.session_state.driver):
         if driver.find_elements(By.XPATH, "//div[5]//div[2]//a[1]"):
             WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[5]//div[2]//a[1]"))).click()
             st.write("Found Show all 5")
-        # if driver.find_elements(By.XPATH, "//div[4]//div[2]//a[1]"):
-        #     WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[4]//div[2]//a[1]"))).click()
-        #     st.write("Found Show all 6")
+        if driver.find_elements(By.XPATH, "//div[4]//div[2]//a[1]"):
+            WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[4]//div[2]//a[1]"))).click()
+            st.write("Found Show all 4")
 
         element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
         text_content = "\n".join([el.text for el in element])
