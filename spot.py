@@ -29,22 +29,15 @@ if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
         options = Options()
         options.add_argument("--headless")
-        options.add_argument("--no-sandbox")
         options.add_argument("--disable-gpu")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-software-rasterizer")
-        options.add_argument("--single-process")
-        options.add_argument("--window-size=1280,720")
-        options.add_argument("--mute-audio")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")  # critical for low-shm environments
+        options.add_argument("--window-size=1920,1080")
         options.add_argument("--disable-extensions")
-        options.add_argument("--disable-background-networking")
         options.add_argument("--disable-infobars")
-        options.add_argument("--disable-client-side-phishing-detection")
-        options.add_argument("--disable-default-apps")
-        options.add_argument("--disable-hang-monitor")
-        options.add_argument("--no-first-run")
-        options.add_argument("--no-zygote")
+        options.add_argument("--remote-debugging-port=9222")
         options.binary_location = os.environ.get("CHROME_BIN", "/usr/bin/chromium")
+        
         driver = webdriver.Chrome(options=options)
         st.session_state.driver = driver
 
