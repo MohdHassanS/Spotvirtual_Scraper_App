@@ -32,7 +32,7 @@ if 'driver' not in st.session_state:
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")  # critical for low-shm environments
-        options.add_argument("--window-size=1920,1080")
+        #options.add_argument("--window-size=1920,1080")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-infobars")
         options.add_argument("--remote-debugging-port=9222")
@@ -73,7 +73,7 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             del st.session_state[key]
 
 def scrape_names(driver=st.session_state.driver):
-    with st.spinner("Scraping..."):
+    with st.spinner("Scraping...",show_time=True):
         time.sleep(3)
 
         xpaths = ["//div[4]//div[2]//a[1]", "//div[5]//div[2]//a[1]", "//div[6]//div[2]//a[1]"]
@@ -82,6 +82,7 @@ def scrape_names(driver=st.session_state.driver):
                 elem = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
                 driver.execute_script("arguments[0].click();", elem)
                 st.write(f"Clicked: Show all {i}")
+                time.sleep(3)
             except: pass
 
         try:
@@ -129,6 +130,3 @@ if st.session_state.login == 'success' and st.button("Scrape Data"):
     st.write("Total Presentees  : ",len(attendees))
     st.write("Presentees Name :   ",','.join(attendees))
     st.write(attendees)
-    st.session_state.driver.quit()
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
