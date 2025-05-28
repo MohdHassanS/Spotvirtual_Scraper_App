@@ -29,15 +29,22 @@ if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
         options = Options()
         options.add_argument("--headless")
-        options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")  # critical for low-shm environments
-        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-software-rasterizer")
+        options.add_argument("--single-process")
+        options.add_argument("--window-size=1280,720")
+        options.add_argument("--mute-audio")
         options.add_argument("--disable-extensions")
+        options.add_argument("--disable-background-networking")
         options.add_argument("--disable-infobars")
-        options.add_argument("--remote-debugging-port=9222")
+        options.add_argument("--disable-client-side-phishing-detection")
+        options.add_argument("--disable-default-apps")
+        options.add_argument("--disable-hang-monitor")
+        options.add_argument("--no-first-run")
+        options.add_argument("--no-zygote")
         options.binary_location = os.environ.get("CHROME_BIN", "/usr/bin/chromium")
-        
         driver = webdriver.Chrome(options=options)
         st.session_state.driver = driver
 
@@ -73,30 +80,27 @@ def confirm_verification_code(code, driver=st.session_state.driver):
             del st.session_state[key]
 
 def scrape_names(driver=st.session_state.driver):
-    with st.spinner("Wait for it...", show_time=True):
-        time.sleep(5)
-        # screenshot = driver.get_screenshot_as_png()
-        # st.image(BytesIO(screenshot), caption='before scraping')
-        
-        if driver.find_elements(By.XPATH, "//div[4]//div[2]//a[1]"):
-            element = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[4]//div[2]//a[1]")))
-            driver.execute_script("arguments[0].click();", element)
-            st.write("Found Show all 4")
-        if driver.find_elements(By.XPATH, "//div[5]//div[2]//a[1]"):
-            element = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[5]//div[2]//a[1]")))
-            driver.execute_script("arguments[0].click();", element)
-            st.write("Found Show all 5")
-        if driver.find_elements(By.XPATH, "//div[6]//div[2]//a[1]"):
-            element = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, "//div[6]//div[2]//a[1]")))
-            driver.execute_script("arguments[0].click();", element)
-            st.write("Found Show all 6")
+    with st.spinner("Scraping..."):
+        time.sleep(3)
 
-        element = driver.find_elements(By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")
-        text_content = "\n".join([el.text for el in element])
-        spliting = list(set(text_content.splitlines()))
-        unwanted = ['Browse channels','Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN']
-        cleaned = sorted([i for i in spliting if len(i)>2 and i not in unwanted])
-        return cleaned
+        xpaths = ["//div[4]//div[2]//a[1]", "//div[5]//div[2]//a[1]", "//div[6]//div[2]//a[1]"]
+        for i, xpath in enumerate(xpaths, start=4):
+            try:
+                elem = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xpath)))
+                driver.execute_script("arguments[0].click();", elem)
+                st.write(f"Clicked: Show all {i}")
+            except: pass
+
+        try:
+            containers = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")))
+        except:
+            st.error("Failed to locate member list section.")
+            return []
+
+        raw = "\n".join([el.text[:1000] for el in containers if el.text.strip()])
+        unwanted = {'Browse channels','Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN'}
+        return sorted([n for n in set(raw.splitlines()) if len(n) > 2 and n not in unwanted])
+
 
 if 'email' not in st.session_state:
     st.session_state.email = ''
