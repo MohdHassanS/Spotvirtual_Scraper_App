@@ -82,8 +82,6 @@ def scrape_names(driver=st.session_state.driver):
             show_all_button.click()
             st.write("Found Show all")
             time.sleep(3)
-            screenshot = driver.get_screenshot_as_png()
-            st.image(BytesIO(screenshot), caption='after root')
         except: 
             st.write("Not Found Show all")
 
