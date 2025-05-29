@@ -96,6 +96,8 @@ def scrape_names(driver=st.session_state.driver):
             st.error(f"An error occurred : ")
             error_details = traceback.format_exc()
             st.code(error_details, language='python')
+            screenshot = driver.get_screenshot_as_png()
+            st.image(BytesIO(screenshot), caption='after root')
             return []
         # xpaths = ["//div[4]//div[2]//a[1]", "//div[5]//div[2]//a[1]", "//div[6]//div[2]//a[1]"]
         # for i, xpath in enumerate(xpaths, start=4):
