@@ -86,7 +86,7 @@ def scrape_names(driver=st.session_state.driver):
             st.write("Not Found Show all")
 
         try:
-            sidebar = driver.find_element(By.CLASS_NAME, "Sidebar_sidebar__olcdO")
+            sidebar = driver.find_element(By.ID, "root")
             sidebar_text = sidebar.text
             spt = sidebar_text.splitlines()
             unnes = ['New ZEN DS','Browse spaces','Browse channels',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN']
