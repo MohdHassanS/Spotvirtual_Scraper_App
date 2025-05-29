@@ -81,8 +81,22 @@ def scrape_names(driver=st.session_state.driver):
             time.sleep(3)
             show_all_button.click()
             st.write("Found Show all")
+            time.sleep(3)
         except: 
             st.write("Not Found Show all")
+
+        try:
+            sidebar = driver.find_element(By.CLASS_NAME, "Sidebar_sidebar__olcdO")
+            sidebar_text = sidebar.text
+            spt = sidebar_text.splitlines()
+            unnes = ['New ZEN DS','Browse spaces','Browse channels',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN']
+            cln = sorted([i for i in spt if len(i)>2 and i not in unnes])
+            return cln
+        except:
+            st.error(f"An error occurred : ")
+            error_details = traceback.format_exc()
+            st.code(error_details, language='python')
+            return []
         # xpaths = ["//div[4]//div[2]//a[1]", "//div[5]//div[2]//a[1]", "//div[6]//div[2]//a[1]"]
         # for i, xpath in enumerate(xpaths, start=4):
         #     try:
@@ -92,15 +106,15 @@ def scrape_names(driver=st.session_state.driver):
         #         time.sleep(3)
         #     except: pass
 
-        try:
-            containers = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")))
-        except:
-            st.error("Failed to locate member list section.")
-            return []
+        # try:
+        #     containers = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.XPATH, "//div[contains(@class, 'OrgSidebar_scrollContainer')]")))
+        # except:
+        #     st.error("Failed to locate member list section.")
+        #     return []
 
-        raw = "\n".join([el.text[:1000] for el in containers if el.text.strip()])
-        unwanted = {'Browse channels','Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN'}
-        return sorted([n for n in set(raw.splitlines()) if len(n) > 2 and n not in unwanted])
+        # raw = "\n".join([el.text[:1000] for el in containers if el.text.strip()])
+        # unwanted = {'Browse channels','Browse spaces',"You haven't joined any channels",'GUESTS','Office',' Invite teammates','MEMBERS','SPACES','CHANNELS','Show less','ADMIN'}
+        # return sorted([n for n in set(raw.splitlines()) if len(n) > 2 and n not in unwanted])
 
 
 if 'email' not in st.session_state:
