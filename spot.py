@@ -32,7 +32,7 @@ if 'driver' not in st.session_state:
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")  # critical for low-shm environments
-        #options.add_argument("--window-size=1920,1080")
+        options.add_argument("--window-size=1920,1080")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-infobars")
         options.add_argument("--remote-debugging-port=9222")
