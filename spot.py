@@ -35,13 +35,12 @@ if 'driver' not in st.session_state:
         options.add_argument("--window-size=1920,1080")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-infobars")
-        options.add_argument("--remote-debugging-port=9222")
-        
-        # ✅ Set Chromium binary path directly
-        options.binary_location = "/usr/bin/chromium-browser"
+        # Set binary location explicitly (your Chrome binary path, can adjust if different)
+        options.binary_location = os.environ.get("CHROME_BIN", "/usr/bin/chromium-browser")
 
-        # ✅ Create driver with WebDriverManager
-        service = Service(ChromeDriverManager().install())
+        # Use the ChromeDriver installed manually (so no need for ChromeDriverManager here)
+        service = Service("/usr/bin/chromedriver")
+
         driver = webdriver.Chrome(service=service, options=options)
         st.session_state.driver = driver
 
