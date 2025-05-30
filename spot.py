@@ -41,7 +41,8 @@ if 'driver' not in st.session_state:
         options.binary_location = "/usr/bin/chromium-browser"
 
         # ✅ Create driver with WebDriverManager
-        driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
         st.session_state.driver = driver
 
         
