@@ -27,7 +27,7 @@ if st.button("Full Refresh"):
 
 if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
-        ooptions = Options()
+        options = Options()
         options.binary_location = "/usr/bin/chromium-browser"
         options.add_argument("--headless=new")
         options.add_argument("--no-sandbox")
