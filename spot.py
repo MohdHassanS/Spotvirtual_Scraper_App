@@ -27,17 +27,18 @@ if st.button("Full Refresh"):
 
 if 'driver' not in st.session_state:
     with st.spinner("Wait for it...", show_time=True):
-        options = Options()
-        options.binary_location = "/usr/bin/chromium-browser"  # or your chrome binary path
-        options.add_argument("--headless=new")  # use new headless mode if supported
+        ooptions = Options()
+        options.binary_location = "/usr/bin/chromium-browser"
+        options.add_argument("--headless=new")
         options.add_argument("--no-sandbox")
-        # options.add_argument("--disable-dev-shm-usage")
-        # options.add_argument("--remote-debugging-port=9222")
-        # options.add_argument("--window-size=1920,1080")
-        # options.add_argument("--disable-gpu")
-        # options.add_argument("--single-process")
-        # options.add_argument("--disable-software-rasterizer")
-        service = Service("/usr/bin/chromedriver")  # Adjust if using ChromeDriverManager
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--remote-debugging-port=9222")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--single-process")
+        options.add_argument("--disable-software-rasterizer")
+
+        service = Service("/usr/bin/chromedriver")
 
         driver = webdriver.Chrome(service=service, options=options)
         st.session_state.driver = driver
