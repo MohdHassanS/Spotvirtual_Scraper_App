@@ -31,12 +31,12 @@ if 'driver' not in st.session_state:
         options.binary_location = "/usr/bin/chromium-browser"  # or your chrome binary path
         options.add_argument("--headless=new")  # use new headless mode if supported
         options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--remote-debugging-port=9222")
-        options.add_argument("--window-size=1920,1080")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--single-process")
-        options.add_argument("--disable-software-rasterizer")
+        # options.add_argument("--disable-dev-shm-usage")
+        # options.add_argument("--remote-debugging-port=9222")
+        # options.add_argument("--window-size=1920,1080")
+        # options.add_argument("--disable-gpu")
+        # options.add_argument("--single-process")
+        # options.add_argument("--disable-software-rasterizer")
         service = Service("/usr/bin/chromedriver")  # Adjust if using ChromeDriverManager
 
         driver = webdriver.Chrome(service=service, options=options)
