@@ -83,8 +83,8 @@ def create_chrome_driver():
     
     # Method 1: Try with Google Chrome stable (after installation)
     chrome_paths = [
-        "/usr/bin/google-chrome-stable",
         "/usr/bin/google-chrome",
+        "/usr/bin/google-chrome-stable",
         "/opt/google/chrome/chrome",
         "/usr/bin/chromium-browser",
         "/usr/bin/chromium"
