@@ -162,7 +162,23 @@ You now have:
 
 ## 🧪 Sample Screens
 
-![Sample UI](https://i.imgur.com/YOUR_IMAGE_URL.png)
+Here are some screenshots of the Streamlit app in action:
+
+
+### 🔐 Login with mail
+![Streamlit App Screenshot](./Streamlit_working_Screenshots/WhatsApp%20Image%202025-06-04%20at%2012.08.42_2011da95.jpg)
+
+### 🔐 OTP Verification
+![Login Screenshot](./Streamlit_working_Screenshots/WhatsApp%20Image%202025-06-04%20at%2012.09.28_5ec237ac.jpg)
+
+### 📋 confirming the OTP
+![Scraped Data Screenshot](./Streamlit_working_Screenshots/WhatsApp%20Image%202025-06-04%20at%2012.10.17_e03121db.jpg)
+
+### ✅ Scrapping...  
+![Cleaned Output Screenshot](./Streamlit_working_Screenshots/WhatsApp%20Image%202025-06-04%20at%2012.10.53_26a4cf6b.jpg)
+
+### 📊 Diplaying the Scrapped Data  
+![Extra Screenshot](./Streamlit_working_Screenshots/WhatsApp%20Image%202025-06-04%20at%2012.11.26_6012d2bc.jpg)
 
 ---
 
