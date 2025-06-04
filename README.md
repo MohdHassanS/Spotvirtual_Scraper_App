@@ -59,6 +59,11 @@ python3 -m venv scraper-env
 
 ```bash
 git clone https://github.com/MohdHassanS/Spotvirtual_Scraper_App.git
+
+# (Optional) Ensure you're on the latest commit of main branch
+git checkout main
+git pull origin main
+
 cd Spotvirtual_Scraper_App
 pip install -r requirements.txt
 ```
