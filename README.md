@@ -6,32 +6,33 @@ A **Streamlit web app** that automates login to [SpotVirtual](https://spotvirtua
 
 ## 🚀 Features
 
-- 🔐 **OTP-based secure login**
-- 🧠 **Session state** management to keep your login intact across app actions
-- 🧹 Filters out unwanted zone/room names — gives you **clean, readable attendee names**
-- 🔁 Re-scrape anytime without restarting the app
-- 🌐 Deployable on **Render** or any Streamlit-supported platform
+- 🔐 Secure login with OTP
+- 🔁 Re-scrape attendees anytime
+- 🧠 Persistent login using Streamlit’s session state
+- 🧹 Removes unwanted noise (zones, rooms)
+- 🌐 Deployable on Azure VM, Render, or any Streamlit-supported platform
 
 ---
 
 ## 📦 Tech Stack
 
-| Component        | Technology     |
-|------------------|----------------|
-| Frontend UI      | Streamlit      |
-| Web Automation   | Selenium       |
-| Driver Handling  | WebDriver Manager |
-| Python Version   | 3.8+           |
+| Layer              | Technology          |
+|--------------------|---------------------|
+| UI Framework       | Streamlit           |
+| Web Automation     | Selenium            |
+| Browser Drivers    | ChromeDriver        |
+| Package Handling   | WebDriver Manager   |
+| Python Version     | 3.8+                |
 
 ---
 
 ## ⚙️ Deployment: Run on Azure VM (Ubuntu)
 
 ## ✅ Prerequisites
-- Ubuntu-based Azure VM
-- Streamlit app in a GitHub repo
-- Public IP of VM
-- SSH access to VM
+- Azure Ubuntu VM with a public IP
+- GitHub repo of this app
+- SSH access (using Azure CLI or key)
+- Python 3.8+
 
 ---
 
